@@ -20,7 +20,7 @@ public partial class Web_NewRecipes : System.Web.UI.Page
 
             }
             else {
-
+                populateRecipe();
 
             }
         }
@@ -84,7 +84,31 @@ public partial class Web_NewRecipes : System.Web.UI.Page
     protected void btnSave_Click(object sender, EventArgs e)
     {
         try
-        { }
+        {
+
+            Recipe objRecipe = new Recipe();
+            try
+            {
+                objRecipe.saveRecipeInvAssn(
+                    Convert.ToInt16(dlMenuItems.SelectedValue),
+                    Convert.ToInt16(dlInvItem.SelectedValue),
+                    Convert.ToDecimal (txtQuantity.Text),
+                    Convert.ToInt16(Session[Constants.SVAR_USER_ID]));
+
+                resetControls();
+                populateRecipe();
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+
+            }
+
+        }
         catch (Exception ex)
         {
             Response.Redirect("~/Web/error.aspx?msg=" + Server.UrlEncode(ex.Message.ToString()).ToString(), false);
@@ -123,15 +147,40 @@ public partial class Web_NewRecipes : System.Web.UI.Page
             ScriptManager.RegisterStartupScript(this, this.GetType(),
             "Message", "alert('Are you sure you want to delete - " + index[0] + "');", true);
 
-            deleteInvMenuAssn(index[1]);
+            deleteInvMenuAssn(index[0]);
+            
+
+
+        }
+        if (e.CommandName == "Edit")
+        {
+            string[] index = e.CommandArgument.ToString().Split('|');
              
+          
+
         }
     }
 
     protected void deleteInvMenuAssn(string sIndex)
     {
+        Recipe objRecipe = new Recipe();
+        try
+        {
+            objRecipe.deleteRecipeInvAssn(Convert.ToInt16(sIndex), Convert.ToInt16(Session[Constants.SVAR_USER_ID]));
+
+            resetControls();
+            populateRecipe();
+        }
+        catch(Exception ex)
+        {
+
+        }
+        finally
+        {
+
+        }
+
         
-        resetControls();
 
     }
 

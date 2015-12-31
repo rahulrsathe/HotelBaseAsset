@@ -55,6 +55,11 @@
     <command> select inv.InventoryTypeName, invmnu.reduceinvqty, inv.Measure, invmnu.idinvmnuassn, invmnu.menuitemid from hotelbase.invmnuassn invmnu join inventoryheader inv on invmnu.invheaderid=inv.inventoryheaderid where  invmnu.menuitemid=@menuitemid and invmnu.delflag&lt;&gt; 'Y' </command>
     <params>@menuitemid</params>
   </getRecipeForMenu>
+
+  <insertInvMnuAssn>
+    <command>INSERT INTO invmnuassn  (  menuitemid, invheaderid, reduceinvqty, DelFlag, CreateDate, modby) VALUES (@menuitemid, @invheaderid, @reduceqty, 'N',  now(), @modby);  </command>
+    <params>@menuitemid|@invheaderid|@reduceqty|@modby</params>
+  </insertInvMnuAssn>
     
     <getCodesByCategory>
     <command>select codeid, catid , code, codedesc from codedecode where catid=@catid and delflag &lt;&gt;'Y'</command>
@@ -182,7 +187,7 @@
 
   <deleteRecipeInvAssn>
     <command>update invmnuassn invmnu set invmnu.delflag='Y' , invmnu.modby=@modby, invmnu.moddate=now() where invmnu.idinvmnuassn=@InvMenuAssnID</command>
-    <params>@modby,@InvMenuAssnID</params>
+    <params>@InvMenuAssnID|@modby</params>
   </deleteRecipeInvAssn>
 
     

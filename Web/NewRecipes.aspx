@@ -64,7 +64,7 @@
 
         <div>
         <div style="float:left">
-             <asp:Button ID="btnSave" runat="server" Text="Save" OnClick="btnSave_Click" />
+             <asp:Button ID="btnSave" runat="server" Text="Save" OnClick="btnSave_Click"  />
         </div>
         <div>
             <asp:Button ID="btnClear" runat="server" Text="Clear" />
@@ -79,7 +79,8 @@
         <asp:HiddenField ID="hidNewEditFlag" runat="server" />
         <asp:HiddenField ID="HiddenField2" runat="server" />
         <div style="float:left ; width:50%">
-            <asp:GridView ID="grdRecipe" runat="server" AutoGenerateColumns ="False" BackColor="White" BorderColor="White" BorderStyle="Ridge" BorderWidth="2px" CellPadding="3" CellSpacing="1" GridLines="None" OnRowCommand="grdRecipe_RowCommand">
+            <asp:GridView ID="grdRecipe" runat="server" AutoGenerateColumns ="False" BackColor="White" BorderColor="White" BorderStyle="Ridge" 
+                BorderWidth="2px" CellPadding="3" CellSpacing="1" GridLines="None" OnRowCommand="grdRecipe_RowCommand" >
                          
                 <Columns>
                     <asp:BoundField DataField="InventoryTypeName" HeaderText="Inventroy Name" ReadOnly="True" />
@@ -89,14 +90,14 @@
                     <asp:BoundField DataField="menuitemid" ShowHeader="false" Visible="false" ReadOnly="True" />
                     <asp:TemplateField>
                         <ItemTemplate>
-                            <asp:LinkButton ID="lnkDelete" runat="server"
+                            <asp:LinkButton ID="lnkDelete" runat="server" AutoPostBack="true"
                                 CommandArgument='<%# Eval("idinvmnuassn")  +"|"+ Eval("InventoryTypeName") %>' 
-				                    CommandName="Delete">Delete</asp:LinkButton>
+				                    CommandName="Delete" >Delete</asp:LinkButton>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField>
                         <ItemTemplate>
-                            <asp:LinkButton ID="lnkEdit" runat="server"
+                            <asp:LinkButton ID="lnkEdit" runat="server" AutoPostBack="true"
                                 CommandArgument='<%# Eval("idinvmnuassn") %>' 
 				                    CommandName="Edit">Edit</asp:LinkButton>
                         </ItemTemplate>
@@ -121,6 +122,9 @@
     <triggers>
          <asp:AsyncPostBackTrigger controlid="dlMenuItems" eventname="SelectedIndexChanged" />
          <asp:AsyncPostBackTrigger controlid="btnSave" eventname="Click" />
+         <asp:AsyncPostBackTrigger controlid="grdRecipe" eventname="RowCommand"/>
+          
+
     </triggers>
 </asp:UpdatePanel>
 </asp:Content>

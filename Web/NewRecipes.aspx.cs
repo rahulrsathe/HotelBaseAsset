@@ -130,8 +130,7 @@ public partial class Web_NewRecipes : System.Web.UI.Page
 
     protected void deleteInvMenuAssn(string sIndex)
     {
-
-
+        
         resetControls();
 
     }

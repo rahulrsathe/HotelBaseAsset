@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<queries>
+
+  <validateLogin>
+    <command>SELECT u.employee_id as employee_id, u.login_name as login_name, u.role_id as role_id, concat(u.lname , ', ' , u.fname) AS FullName, h.hotelname, h.hotelid FROM users AS u INNER JOIN role_detail AS r ON u.role_id = r.role_id  inner join hoteldetail h on u.hotelid = h.hotelid  WHERE   (u.status = 'A') AND (UPPER(LTRIM(RTRIM(u.login_name))) = UPPER(LTRIM(RTRIM(@login_name)))) AND (LTRIM(RTRIM(u.sys_pwd)) = LTRIM(RTRIM(@sys_pwd))) AND (u.status = 'A')</command>
+    <params>@login_name|@sys_pwd</params>
+  </validateLogin>
+
+
+  <validateRoleAccess>
+    <command>select role_id,has_access,page_name from role_page_access where has_access='Y' and status='A' and page_name = @page_name and role_id = @role_id  </command>
+    <params>@page_name|@role_id</params>
+  </validateRoleAccess>
+
+  <getTaskSummary>
+    <command>select distinct t.TaskName as TaskName, t.TaskID as TaskID from tasks t inner join TaskAssignments ta on t.TaskID = ta.TaskID and t.status='A' and ta.MemberID = @MemberID</command>
+    <params>@MemberID</params>
+  </getTaskSummary>
+
+  <saveTaskTime>
+    <command>insert into TaskTimeEntries ( MemberID, TaskID, PunchedIn, PunchedOut, Comments, status, updateby, lastupdate )values( @MemberID, @TaskID, @PunchedIn, @PunchedOut, @Comments, 'A', @updateby, GetDate())</command>
+    <params>@MemberID|@TaskID|@PunchedIn|@PunchedOut|@Comments|@updateby</params>
+  </saveTaskTime>
+
+  <getTimesheetByMember>
+    <command>
+        select t.taskname as TaskName, ta.taskid as TaskID, convert(varchar(10), punchedout,101) as Consumed_On, sum( datediff(mi, punchedin,punchedout))  as Total_Efforts from TaskTimeEntries ta inner join tasks t on ta.taskid = t.taskid  where memberID=@memberID group by   ta.taskid,  convert(varchar(10), punchedout,101), t.taskname 
+      </command>
+    <params>@memberID</params>
+  </getTimesheetByMember>
+
+  <qryUpdateMemberById>
+    <command>UPDATE base_Members SET mem_CompanyId = @mem_CompanyId, mem_RoleId = @mem_RoleId, mem_FirstName = @mem_FirstName, mem_MiddleName = @mem_MiddleName, mem_LastName = @mem_LastName, mem_EmailId_1 = @mem_EmailId_1, mem_EmailId_2 = @mem_EmailId_2, mem_Mobile = @mem_Mobile, mem_Extention = @mem_Extention, mem_LandLine = @mem_LandLine, mem_CompanyJoiningDt = @mem_CompanyJoiningDt, mem_ProjectJoiningDt = @mem_ProjectJoiningDt WHERE mem_Id = @mem_Id</command>
+    <params>@mem_CompanyId, @mem_RoleId, @mem_FirstName, @mem_MiddleName, @mem_LastName, @mem_EmailId_1, @mem_EmailId_2, @mem_Mobile, @mem_Extention, @mem_LandLine, @mem_ProjectJoiningDt, @mem_CompanyJoiningDt, @mem_Id</params>
+  </qryUpdateMemberById>
+
+
+   <getTableList>
+    <command>select distinct fdt.finedinetableID, fdt.tablenickname, foh.orderid, foh.ordernumber, time(foh.orderstarttime) as orderstarttime, timediff(now(), foh.orderstarttime) as busyfrom , b.billid from finedinetables fdt  left join foodorderheader foh  on fdt.finedinetableid = foh.tableid  and foh.orderstatus=@orderstatus  and foh.ordertype=@ordertype left join billdetail b on b.orderid = foh.orderid   where fdt.hotelid = @hotelid and fdt.delflag &lt;&gt; 'Y'</command>
+    <params>@hotelid|@orderstatus|@ordertype</params>
+  </getTableList> 
+
+
+  <getMenuItemsByType>
+    <command>select menuitemid, menuitemname, menuitemcost from menuitemheader where  menuitemtype=@menuitemtype and delflag &lt;&gt;'Y' and showinorder='Y'</command>
+    <params>@menuitemtype</params>
+  </getMenuItemsByType>
+
+  <getMenuItemsForRecipe>
+    <command>select menuitemid, menuitemname from menuitemheader where  showinorder='Y' and delflag &lt;&gt;'Y'</command>
+    <params></params>
+  </getMenuItemsForRecipe>
+
+  <getRecipeForMenu>
+    <command> select inv.InventoryTypeName, invmnu.reduceinvqty, inv.Measure, invmnu.idinvmnuassn, invmnu.menuitemid from hotelbase.invmnuassn invmnu join inventoryheader inv on invmnu.invheaderid=inv.inventoryheaderid where  invmnu.menuitemid=@menuitemid and invmnu.delflag&lt;&gt; 'Y' </command>
+    <params>@menuitemid</params>
+  </getRecipeForMenu>
+    
+    <getCodesByCategory>
+    <command>select codeid, catid , code, codedesc from codedecode where catid=@catid and delflag &lt;&gt;'Y'</command>
+    <params>@catid</params>
+  </getCodesByCategory>
+
+
+
+  <getOrderDetailForBill>
+    <command>select mih.menuitemname, mih.menuitemcost, mih.menuitemid,fod.menuitemqty, (mih.menuitemcost * fod.menuitemqty ) as totalcost, fod.foodorderdetailid , mih.taxid, cmplmntry from foodorderdetail fod left  join foodorderheader foh on fod.orderid = foh.orderid join menuitemheader mih on mih.menuitemid = fod.menuitemid where foh.orderid = @orderid and foh.delflag &lt;&gt; 'Y' and fod.delflag &lt;&gt; 'Y' and fod.cmplmntry &lt;&gt;'Y'</command>
+    <params>@orderid</params>
+  </getOrderDetailForBill>
+
+  <getOrderDetail>
+    <command>select mih.menuitemname, mih.menuitemcost, mih.menuitemid,fod.menuitemqty, (mih.menuitemcost * fod.menuitemqty ) as totalcost, fod.foodorderdetailid , mih.taxid, cmplmntry from foodorderdetail fod left  join foodorderheader foh on fod.orderid = foh.orderid join menuitemheader mih on mih.menuitemid = fod.menuitemid where foh.orderid = @orderid and foh.delflag &lt;&gt; 'Y' and fod.delflag &lt;&gt; 'Y'</command>
+    <params>@orderid</params>
+  </getOrderDetail>
+
+  <saveCmplmntryItem>
+    <command>update foodorderdetail fod set  fod.Cmplmntry= @cmplmntry where fod.foodorderdetailid=@foodorderdetailid</command>
+    <params>@foodorderdetailid|@cmplmntry</params>
+  </saveCmplmntryItem>
+
+  <delOrderDetail>
+    <command>update foodorderdetail fod set  fod.DelFlag='Y' where fod.foodorderdetailid=@foodorderdetailid</command>
+    <params>@foodorderdetailid</params>
+  </delOrderDetail>
+
+  <insertOrderDetail>
+    <command>insert into foodorderdetail   (orderid, menuitemid,delflag, moddate,createdate, modby, menuitemqty, cmplmntry) values (@orderid, @menuitemid,'N',now(),now(),@modby,1,@cmplmntry)</command>
+    <params>@orderid|@menuitemid|@modby|@cmplmntry</params>
+  </insertOrderDetail>
+
+  <insertOrderHeader>
+    <command>insert into foodorderheader ( ordernumber,tableid,orderstarttime,orderstatus,ordertype,delflag,moddate,createdate,modby) values  ( (SELECT max(@row := @row + 1) as row FROM foodorderheader t, (SELECT @row := 0) r), @tableid, now(), @orderstatus, @ordertype,'N',now(),now(),@modby);</command>
+    <params>@tableid|@orderstatus|@ordertype|@modby</params>
+  </insertOrderHeader>
+
+  <updateOrderDetail>
+    <command>update foodorderdetail fod set  fod.menuitemqty=@menuitemqty where fod.foodorderdetailid=@foodorderdetailid and orderid=@orderid</command>
+    <params>@menuitemqty|@foodorderdetailid|@orderid</params>
+  </updateOrderDetail>
+
+  <getTaxPercent>
+    <command>select distinct menutaxid, taxpercent from menutax where menutaxid IN ({0}) and hotelid=@hotelid and delflag &lt;&gt; 'Y'</command>
+    <params>@hotelid</params>
+  </getTaxPercent>
+
+  <insertOrderTax>
+    <command>INSERT INTO foodordertax ( OrderID,TaxID,TaxAmt,DelFlag,ModDate,CreateDate,ModBy ) VALUES ( @orderid, @taxid, @taxamt, 'N', now(), now(), @modby)</command>
+    <params>@orderid|@taxid|@taxamt|@modby</params>
+  </insertOrderTax>
+
+  <updateOrderTax>
+    <command>UPDATE foodordertax SET TaxAmt  = @taxamt, ModDate = now(), ModBy  = @modby  WHERE  orderid  = @orderid and taxid = @taxid</command>
+    <params>@taxamt|@modby|@orderid|@taxid</params>
+  </updateOrderTax>
+
+  <insertBillHeader>
+    <command>insert into billdetail ( BillNumber, BillAmt, BillDate, BillStatus, CustID, DelFlag, ModDate, CreateDate, ModBy, OrderID) VALUES ( (SELECT max(@row := @row + 1) as row FROM billdetail t, (SELECT @row := 0) r), @billamt, now(), @billstatus, @custID, 'N', now(), now(), @modby, @orderid )</command>
+    <params>@billamt|@billstatus|@custID|@modby|@orderid</params>
+  </insertBillHeader>
+
+  <updateBillHeader>
+    <command>update billdetail set billamt=@billamt, moddate=now(), modby=@modby where billid=@billid and orderid=@orderid</command>
+    <params>@billamt|@modby|@billid|@orderid</params>
+  </updateBillHeader>
+
+  <getOrderTax>
+    <command>select fot.foodordertaxid, mt.menutaxid, mt.taxcode, mt.taxdesc , fot.taxamt from foodordertax fot join menutax mt on mt.menutaxid=fot.taxid and orderid=@orderid and fot.delflag &lt;&gt;'Y' and mt.delflag &lt;&gt;'Y' union select -1,-1, -1,'Order Total' , billamt  from billdetail where orderid =@orderid2 and delflag &lt;&gt;'Y'</command>
+    <params>@orderid|@orderid2</params>
+  </getOrderTax>
+
+  <getOrderAmount>
+    <command>select bil.billid, bil.billnumber, bil.billamt from foodorderheader foh join billdetail bil on bil.orderid = foh.orderid where foh.orderid= @orderid and bil.billid= @billid and bil.delflag &lt;&gt; 'Y' and foh.delflag &lt;&gt; 'Y' and foh.orderstatus= @orderstatus</command>
+    <params>@billid|@orderid|@orderstatus</params>
+  </getOrderAmount>
+
+  <updateOrderStatus>
+    <command>update foodorderheader foh set foh.orderstatus=@orderstatus, orderendtime=now(), moddate=now(), modby=@modby where orderid=@orderid</command>
+    <params>@orderstatus|@modby|@orderid</params>
+  </updateOrderStatus>
+
+  <updateBillStatus>
+    <command>update billdetail set billdate =now(), paymenttype = @paymenttype, notes10 = @notes10, notes20 = @notes20, notes50=@notes50, notes100 = @notes100, notes1000 = @notes1k, billstatus=@billstatus, moddate=now(), modby=@modby, discountpercent=@dscntprcnt , DiscountReason=@dscntrsn, chargedamt=@chargedamt  where billid=@billid</command>
+    <params>@paymenttype|@notes10|@notes20|@notes50|@notes100|@notes500|@notes1000|@billstatus|@modby|@billid|@dscntprcnt|@dscntrsn|@chargedamt</params>
+  </updateBillStatus>
+
+  <rptGetBill>
+    <command> select     mih.menuitemname,    sum(fod.menuitemqty) as menuitemqty,    mih.menuitemcost, (mih.menuitemcost*sum(fod.menuitemqty)) as totalcost from  foodorderdetail fod   join   foodorderheader foh ON fod.orderid = foh.orderid  join    menuitemheader mih ON mih.menuitemid = fod.menuitemid where    foh.orderid  = @orderid and foh.delflag &lt;&gt; 'Y' and fod.delflag &lt;&gt; 'Y' and fod.cmplmntry  &lt;&gt;  'Y'  group by menuitemname</command>
+    <params>@orderid</params>
+  </rptGetBill>
+
+  <rptGetBillTax>
+    <command>select sum(fot.taxamt) as taxamt from  foodordertax fot  join  menutax mt ON mt.menutaxid = fot.taxid and orderid =@orderid  and fot.delflag &lt;&gt; 'Y' and mt.delflag &lt;&gt; 'Y'</command>
+    <params>@orderid</params>
+  </rptGetBillTax>
+
+
+  <rptGetOrderDscnt>
+    <command> select discountpercent from  billdetail bd  where bd.orderid = @orderid and bd.delflag &lt;&gt; 'Y'</command>
+    <params>@orderid</params>
+  </rptGetOrderDscnt>
+
+  <getIfMenuAddedToOrder>
+    <command>select fod.foodorderdetailid, fod.menuitemid, fod.menuitemqty from foodorderdetail fod join foodorderheader foh ON fod.orderid = foh.orderid where fod.orderid = @orderid and fod.menuitemid = @menuitemid and foh.delflag &lt;&gt; 'Y' and fod.delflag &lt;&gt; 'Y' ;</command>
+    <params>@orderid|@menuitemid</params>
+  </getIfMenuAddedToOrder>
+
+  <increaseMenuQty>
+    <command>update foodorderdetail fod set fod.menuitemqty=fod.menuitemqty+1 where fod.foodorderdetailid=@foodorderdetailid;</command>
+    <params>@foodorderdetailid</params>
+  </increaseMenuQty>
+
+  <decreaseMenuQty>
+    <command>update foodorderdetail fod set fod.menuitemqty=fod.menuitemqty-1 where fod.foodorderdetailid=@foodorderdetailid;</command>
+    <params>@foodorderdetailid</params>
+  </decreaseMenuQty>
+
+  <deleteMenuQty>
+    <command>update foodorderdetail fod set fod.delflag='Y' where fod.foodorderdetailid=@foodorderdetailid;</command>
+    <params>@foodorderdetailid</params>
+  </deleteMenuQty>
+
+
+  <deleteRecipeInvAssn>
+    <command>update invmnuassn invmnu set invmnu.delflag='Y' , invmnu.modby=@modby, invmnu.moddate=now() where invmnu.idinvmnuassn=@InvMenuAssnID</command>
+    <params>@modby,@InvMenuAssnID</params>
+  </deleteRecipeInvAssn>
+
+    
+  <getMenuInvAssn>
+    <command>select invma.idinvmnuassn,invma.menuitemid, invma.invheaderid,reduceinvqty from foodorderheader foh join foodorderdetail fod on fod.orderid = foh.orderid join invmnuassn invma on invma.menuitemid=fod.menuitemid where foh.orderid=@orderid and foh.delflag='N' and fod.delflag='N' and invma.delflag='N';</command>
+    <params>@orderid</params>
+  </getMenuInvAssn>
+
+  <insertInventoryReduction>
+    <command>INSERT INTO inventorydetail (InventoryHeaderID, InventoryQty, InventoryAction, BoughtUsedDate, DelFlag, ModDate, CreateDate, ModBy, OrderID, MenuItemId) VALUES (@InventoryHeaderID,@InventoryQty,'4',now(),'N',now(),now(),@ModBy,@OrderID,@MenuItemId);</command>
+    <params>@InventoryHeaderID|@InventoryQty|@ModBy|@OrderID|@MenuItemId</params>
+  </insertInventoryReduction>
+
+  <insertInventoryIncrement>
+    <command>INSERT INTO inventorydetail (InventoryHeaderID, InventoryQty, InventoryAction, BoughtUsedDate, DelFlag, ModDate, CreateDate, ModBy, OrderID, MenuItemId) VALUES (@InventoryHeaderID,@InventoryQty,3,now(),'N',now(),now(),@ModBy,@OrderID,@MenuItemId);</command>
+    <params>@InventoryHeaderID|@InventoryQty|@ModBy|@OrderID|@MenuItemId</params>
+  </insertInventoryIncrement>
+
+  <deleteInventoryData>
+    <command>UPDATE inventorydetail SET DELFLAG='Y' ModDate=now(), modby=@ModBy where  OrderID=@OrderID and MenuItemId=@MenuItemId;</command>
+    <params>@ModBy|@OrderID|@MenuItemId</params>
+  </deleteInventoryData>
+
+
+  <getInventoryHeaderItemsbyCat>
+    <command>select inventoryheaderid,inventorytypename,measure from inventoryheader ih where ih.inventorytypeid=@inventorytypeid and delflag='N' order by inventorytypename;</command>
+    <params>@inventorytypeid</params>
+  </getInventoryHeaderItemsbyCat>
+
+
+  <getInventoryMeasureByInvID>
+    <command>select measure from inventoryheader where inventoryheaderid=@invheaderid;</command>
+    <params>@@invheaderid</params>
+  </getInventoryMeasureByInvID>
+  
+    
+  <insertNewWasteInventory>
+    <command>INSERT INTO inventorydetail (InventoryHeaderID, InventoryQty, InventoryAction,InventoryCost,BoughtUsedDate,DelFlag,ModDate,CreateDate,ModBy,OrderID,MenuItemId) VALUES (@InventoryHeaderID,@InventoryQty,@InventoryAction,@InventoryCost,@BoughtUsedDate,'N',now(),now(),@ModBy,@OrderID,@MenuItemId);</command>
+    <params>@InventoryHeaderID|@InventoryQty|@InventoryAction|@InventoryCost|@BoughtUsedDate|@ModBy|@OrderID|@MenuItemId</params>
+  </insertNewWasteInventory>
+
+
+  <FrozenColumns1>
+    <command>select   * from finedinetables fdt  left join foodorderheader foh  on fdt.finedinetableid = foh.tableid  and foh.orderstatus=@orderstatus  and foh.ordertype=@ordertype left join billdetail b on b.orderid = foh.orderid   where fdt.hotelid = @hotelid and fdt.delflag &lt;&gt; 'Y'</command>
+    <params>@hotelid|@orderstatus|@ordertype</params>
+  </FrozenColumns1>
+
+  <FrozenColumns2>
+    <command>select fdt.finedinetableID, fdt.tablenickname   from finedinetables fdt  left join foodorderheader foh  on fdt.finedinetableid = foh.tableid  and foh.orderstatus=@orderstatus  and foh.ordertype=@ordertype left join billdetail b on b.orderid = foh.orderid   where fdt.hotelid = @hotelid and fdt.delflag &lt;&gt; 'Y'</command>
+    <params>@hotelid|@orderstatus|@ordertype</params>
+  </FrozenColumns2>
+  
+
+</queries>

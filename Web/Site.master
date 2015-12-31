@@ -1,0 +1,63 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="SiteMaster" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head runat="server">
+    <title></title>
+    <link href="~/Styles/Site.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+        <script src="../Scripts/jquery-1.4.1-vsdoc.js" type="text/javascript"></script>
+    </asp:ContentPlaceHolder>
+    
+</head>
+<body>
+    <form runat="server">
+    <div class="page">
+        <div class="header">
+            <div class="title">
+               <asp:Image ID="imgLogo" runat="server"/>
+            </div>
+            <div class="title">
+                <h1>
+                    <asp:Label ID="lblHotelName" runat="server" Text=""></asp:Label>
+                </h1>
+            </div>
+            <div class="loginDisplay">
+                
+                <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
+                    <AnonymousTemplate>
+                        [ <a href="~/Account/Login.aspx" ID="HeadLoginStatus" runat="server">Log In</a> ]
+                    </AnonymousTemplate>
+                    <LoggedInTemplate>
+                        Welcome <span class="bold"><asp:LoginName ID="HeadLoginName" runat="server" /></span>!
+                        [ <asp:LoginStatus ID="HeadLoginStatus" runat="server" LogoutAction="Redirect" LogoutText="Log Out" LogoutPageUrl="~/Web/LogOut.aspx"/> ]
+                    </LoggedInTemplate>
+                </asp:LoginView>
+            </div>
+            <div class="clear hideSkiplink">
+                <asp:Menu ID="NavigationMenu" runat="server" CssClass="menu" EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
+                    <Items>
+                        <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Home"/>
+                        <asp:MenuItem NavigateUrl="~/Web/TakeOut.aspx" Text="Take Out Orders"/>
+                        <asp:MenuItem NavigateUrl="~/Web/ViewMenu.aspx" Text="Reciepe">
+                            <asp:MenuItem NavigateUrl="~/Web/NewRecipes.aspx" Text="New Recipe" Value="New Recipe"></asp:MenuItem>
+                            <asp:MenuItem NavigateUrl="~/Web/EditRecipe.aspx" Text="Edit Recipe" Value="Edit Recipe"></asp:MenuItem>
+                        </asp:MenuItem>
+                        <asp:MenuItem NavigateUrl="~/Web/InvntryRecordNewWaste.aspx" Text="Inventory"/>
+                        <asp:MenuItem NavigateUrl="~/Account/Login.aspx" Text="Reports"/>
+                    </Items>
+                </asp:Menu>
+            </div>
+        </div>
+        <div class="main"> &nbsp;
+            <asp:ContentPlaceHolder ID="MainContent" runat="server"/>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    <div class="footer">
+        All rights reserved - <asp:Label ID="lblHotelNameFooter" runat="server" Text=""></asp:Label>
+    </div>
+    </form>
+</body>
+</html>

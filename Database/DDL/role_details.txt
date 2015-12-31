@@ -1,0 +1,7 @@
+CREATE  TABLE `hotelbase`.`role_detail` (
+  `role_id` INT NOT NULL AUTO_INCREMENT ,
+  `role_desc` VARCHAR(45) NOT NULL ,
+  `lastupdate` DATETIME NULL ,
+  `updateby` VARCHAR(45) NULL ,
+  `status` CHAR NULL ,
+  PRIMARY KEY (`role_id`) );

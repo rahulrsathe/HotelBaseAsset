@@ -1,0 +1,7 @@
+CREATE  TABLE `hotelbase`.`role_page_access` (
+  `page_name` VARCHAR(50) NOT NULL ,
+  `role_id` INT NOT NULL ,
+  `has_access` CHAR NOT NULL ,
+  `status` CHAR NULL ,
+  `lastupdate` DATETIME NULL ,
+  `updateby` INT NULL );

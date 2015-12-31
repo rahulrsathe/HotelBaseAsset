@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsCustBill" targetNamespace="http://tempuri.org/dsCustBill.xsd" xmlns:mstns="http://tempuri.org/dsCustBill.xsd" xmlns="http://tempuri.org/dsCustBill.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsCustBill" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="dsCustBill" msprop:Generator_UserDSName="dsCustBill">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="tblOrderDetail" msprop:Generator_TableClassName="tblOrderDetailDataTable" msprop:Generator_TableVarName="tabletblOrderDetail" msprop:Generator_TablePropName="tblOrderDetail" msprop:Generator_RowDeletingName="tblOrderDetailRowDeleting" msprop:Generator_UserTableName="tblOrderDetail" msprop:Generator_RowChangingName="tblOrderDetailRowChanging" msprop:Generator_RowEvHandlerName="tblOrderDetailRowChangeEventHandler" msprop:Generator_RowDeletedName="tblOrderDetailRowDeleted" msprop:Generator_RowEvArgName="tblOrderDetailRowChangeEvent" msprop:Generator_RowChangedName="tblOrderDetailRowChanged" msprop:Generator_RowClassName="tblOrderDetailRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="menuitemname" msprop:Generator_ColumnVarNameInTable="columnmenuitemname" msprop:Generator_ColumnPropNameInRow="menuitemname" msprop:Generator_ColumnPropNameInTable="menuitemnameColumn" msprop:Generator_UserColumnName="menuitemname" type="xs:string" minOccurs="0" />
+              <xs:element name="menuitemqty" msprop:Generator_ColumnVarNameInTable="columnmenuitemqty" msprop:Generator_ColumnPropNameInRow="menuitemqty" msprop:Generator_ColumnPropNameInTable="menuitemqtyColumn" msprop:Generator_UserColumnName="menuitemqty" type="xs:string" minOccurs="0" />
+              <xs:element name="menuitemcost" msprop:Generator_ColumnVarNameInTable="columnmenuitemcost" msprop:Generator_ColumnPropNameInRow="menuitemcost" msprop:Generator_ColumnPropNameInTable="menuitemcostColumn" msprop:Generator_UserColumnName="menuitemcost" type="xs:decimal" minOccurs="0" />
+              <xs:element name="totalcost" msprop:Generator_ColumnVarNameInTable="columntotalcost" msprop:Generator_ColumnPropNameInRow="totalcost" msprop:Generator_ColumnPropNameInTable="totalcostColumn" msprop:Generator_UserColumnName="totalcost" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

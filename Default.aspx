@@ -7,7 +7,7 @@
     <h2>
         Tables
     </h2>
-    <asp:DataList ID="dlTables" runat="server" RepeatColumns="3" BackColor="White" BorderColor="#E7E7FF"
+    <asp:DataList ID="dlTables" runat="server" RepeatColumns="4" BackColor="White" BorderColor="#E7E7FF"
         BorderStyle="None" BorderWidth="1px" CellPadding="3" 
         onitemcommand="dlTables_ItemCommand" onitemdatabound="dlTables_ItemDataBound" >
         <AlternatingItemStyle BackColor="#F7F7F7" />

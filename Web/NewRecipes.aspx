@@ -1,86 +1,95 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Web/Site.master" AutoEventWireup="true" CodeFile="NewRecipes.aspx.cs" Inherits="Web_NewRecipes" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" Runat="Server">
-
-     
+<asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="Server">
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
+    <asp:scriptmanager id="ScriptManager1" runat="server"></asp:scriptmanager>
 
 
-<div style="float:left ; width:50%">
-    <div>
-        <div> Select material and  quantity for your recipe</div>
-    <div>
-        
-        <div style="float:left">
-            Menu item of this recipe:
-        </div>
-        <div>
-            <asp:DropDownList ID="dlMenuItems" runat="server" DataTextField="menuitemname"
-                        DataValueField="menuitemid" AutoPostBack="True" OnSelectedIndexChanged="dlMenuItems_SelectedIndexChanged" ></asp:DropDownList>
-         </div>
-    </div>
-        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+    <div style="float: left; width: 50%">
+        <asp:updatepanel id="UpdatePanel1" runat="server">
             <ContentTemplate>
-    
-    <div>
-        <div style="float:left">
-            Inventory category:
-        </div>
-        <div>
-            <asp:DropDownList ID="dlInventCat" runat="server" 
-                DataTextField="codedesc" DataValueField="code" AutoPostBack="True" OnSelectedIndexChanged="dlInventCat_SelectedIndexChanged"></asp:DropDownList>
-        </div>
-     </div>
-            
-        <div>
-        <div style="float:left">
-            Inventory item
-        </div>
-        <div>
-            <asp:DropDownList ID="dlInvItem" runat="server" DataTextField="inventorytypename" DataValueField="inventoryheaderid" AutoPostBack="True" OnSelectedIndexChanged="dlInvItem_SelectedIndexChanged" ></asp:DropDownList>
-        </div>
-     </div>
+            <div>
+                <div> Select material and  quantity for your recipe</div>
+            </div>
+      
+            <div> 
+                <asp:Label ID="lblValidation" runat="server" ></asp:Label>
+            </div>
+        
+            <div style="float:left">
+                    Menu item of this recipe:
+            </div>
+            <div>
+                <asp:DropDownList ID="dlMenuItems" runat="server" DataTextField="menuitemname"
+                                DataValueField="menuitemid" AutoPostBack="True" OnSelectedIndexChanged="dlMenuItems_SelectedIndexChanged" >
+                           <asp:ListItem>Select Menu</asp:ListItem>
+                </asp:DropDownList>
+            </div>
 
-    <div>
-        <div style="float:left">
-            Quantity consumed:
+            <div>
+                <div style="float:left">
+                    Inventory category:
+                </div>
+                <div>
+                    <asp:DropDownList ID="dlInventCat" runat="server" 
+                        DataTextField="codedesc" DataValueField="code" AutoPostBack="True" OnSelectedIndexChanged="dlInventCat_SelectedIndexChanged">
+                        <asp:ListItem>Select Category</asp:ListItem>
+
+                    </asp:DropDownList>
+                </div>
+            </div>
+            
+            <div>
+                <div style="float:left">
+                    Inventory item
+                </div>
+                <div>
+                    <asp:DropDownList ID="dlInvItem" runat="server" DataTextField="inventorytypename" DataValueField="inventoryheaderid" AutoPostBack="True" OnSelectedIndexChanged="dlInvItem_SelectedIndexChanged" >
+
+                        <asp:ListItem>Select Inventory Item</asp:ListItem>
+                    </asp:DropDownList>
+                </div>
+            </div>
+    
+            <div>
+                <div style="float:left">
+                    Quantity consumed:
+                </div>
+                <div>
+                    <asp:TextBox ID="txtQuantity" runat="server"></asp:TextBox> <asp:Label ID="lblQtyMeasure" runat="server"></asp:Label>
+                </div>
+            </div>
+
+            <div>
+            <div style="float: left">
+                <asp:button id="btnSave" runat="server" text="Save" onclick="btnSave_Click" />
+            </div>
+            <div>
+                <asp:button id="btnClear" runat="server" text="Clear" />
+            </div>
+
         </div>
-        <div>
-            <asp:TextBox ID="txtQuantity" runat="server"></asp:TextBox> <asp:Label ID="lblQtyMeasure" runat="server"></asp:Label>
-        </div>
-     </div>
-    </ContentTemplate>
+    
+            </ContentTemplate>
             <triggers>
-             <asp:AsyncPostBackTrigger controlid="dlMenuItems" eventname="SelectedIndexChanged" />
-             <asp:AsyncPostBackTrigger controlid="dlInventCat" eventname="SelectedIndexChanged" />
-             <asp:AsyncPostBackTrigger controlid="dlInvItem" eventname="SelectedIndexChanged" />
-             <asp:AsyncPostBackTrigger controlid="btnSave" eventname="Click" />
-              
+                 <asp:AsyncPostBackTrigger controlid="dlMenuItems" eventname="SelectedIndexChanged" />
+                 <asp:AsyncPostBackTrigger controlid="dlInventCat" eventname="SelectedIndexChanged" />
+                 <asp:AsyncPostBackTrigger controlid="dlInvItem" eventname="SelectedIndexChanged" />
+                 <asp:AsyncPostBackTrigger controlid="btnSave" eventname="Click" />
              
             </triggers>
-    </asp:UpdatePanel>
+    </asp:updatepanel>
 
-        <div>
-        <div style="float:left">
-             <asp:Button ID="btnSave" runat="server" Text="Save" OnClick="btnSave_Click"  />
-        </div>
-        <div>
-            <asp:Button ID="btnClear" runat="server" Text="Clear" />
-        </div>
-     </div>
+    </div>
 
-</div>
-</div>
-
-<asp:UpdatePanel ID="UpdatePanel2" runat="server">
+    <asp:updatepanel id="UpdatePanel2" runat="server" onprerender="UpdatePanel2_PreRender">
     <ContentTemplate>
         <asp:HiddenField ID="hidNewEditFlag" runat="server" />
         <asp:HiddenField ID="HiddenField2" runat="server" />
         <div style="float:left ; width:50%">
             <asp:GridView ID="grdRecipe" runat="server" AutoGenerateColumns ="False" BackColor="White" BorderColor="White" BorderStyle="Ridge" 
-                BorderWidth="2px" CellPadding="3" CellSpacing="1" GridLines="None" OnRowCommand="grdRecipe_RowCommand" >
+                BorderWidth="2px" CellPadding="3" CellSpacing="1" GridLines="None" OnRowCommand="grdRecipe_RowCommand" OnRowDeleting="grdRecipe_RowDeleting">
                          
                 <Columns>
                     <asp:BoundField DataField="InventoryTypeName" HeaderText="Inventroy Name" ReadOnly="True" />
@@ -90,14 +99,15 @@
                     <asp:BoundField DataField="menuitemid" ShowHeader="false" Visible="false" ReadOnly="True" />
                     <asp:TemplateField>
                         <ItemTemplate>
-                            <asp:LinkButton ID="lnkDelete" runat="server" AutoPostBack="true"
+                            <asp:LinkButton ID="lnkDelete" runat="server" AutoPostBack="True"
                                 CommandArgument='<%# Eval("idinvmnuassn")  +"|"+ Eval("InventoryTypeName") %>' 
 				                    CommandName="Delete" >Delete</asp:LinkButton>
                         </ItemTemplate>
                     </asp:TemplateField>
+                     
                     <asp:TemplateField>
                         <ItemTemplate>
-                            <asp:LinkButton ID="lnkEdit" runat="server" AutoPostBack="true"
+                            <asp:LinkButton ID="lnkEdit" runat="server" AutoPostBack="True"
                                 CommandArgument='<%# Eval("idinvmnuassn") %>' 
 				                    CommandName="Edit">Edit</asp:LinkButton>
                         </ItemTemplate>
@@ -122,10 +132,7 @@
     <triggers>
          <asp:AsyncPostBackTrigger controlid="dlMenuItems" eventname="SelectedIndexChanged" />
          <asp:AsyncPostBackTrigger controlid="btnSave" eventname="Click" />
-         <asp:AsyncPostBackTrigger controlid="grdRecipe" eventname="RowCommand"/>
-          
-
     </triggers>
-</asp:UpdatePanel>
+</asp:updatepanel>
 </asp:Content>
 

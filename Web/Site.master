@@ -39,10 +39,8 @@
                     <Items>
                         <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Home"/>
                         <asp:MenuItem NavigateUrl="~/Web/TakeOut.aspx" Text="Take Out Orders"/>
-                        <asp:MenuItem NavigateUrl="~/Web/ViewMenu.aspx" Text="Reciepe">
-                            <asp:MenuItem NavigateUrl="~/Web/NewRecipes.aspx" Text="New Recipe" Value="New Recipe"></asp:MenuItem>
-                            <asp:MenuItem NavigateUrl="~/Web/EditRecipe.aspx" Text="Edit Recipe" Value="Edit Recipe"></asp:MenuItem>
-                        </asp:MenuItem>
+                        <asp:MenuItem NavigateUrl="~/Web/NewRecipes.aspx"  Text="Reciepe"> </asp:MenuItem>
+                        <asp:MenuItem NavigateUrl="~/Web/ViewMenu.aspx"  Text="Menu Items"> </asp:MenuItem>
                         <asp:MenuItem NavigateUrl="~/Web/InvntryRecordNewWaste.aspx" Text="Inventory"/>
                         <asp:MenuItem NavigateUrl="~/Account/Login.aspx" Text="Reports"/>
                     </Items>

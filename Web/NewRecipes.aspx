@@ -6,28 +6,28 @@
     <asp:scriptmanager id="ScriptManager1" runat="server"></asp:scriptmanager>
 
 
-    <div style="float: left; width: 50%">
+    <div style="float: left; width: 70%">
         <asp:updatepanel id="UpdatePanel1" runat="server">
             <ContentTemplate>
             <div>
-                <div> Select material and  quantity for your recipe</div>
+                <div class="header"> <h2 style="color:White"> Select material and  quantity for your recipe</h2></div>
             </div>
       
-            <div> 
+            <div  > 
                 <asp:Label ID="lblValidation" runat="server" ></asp:Label>
             </div>
         
-            <div style="float:left">
+            <div  style="float:left">
                     Menu item of this recipe:
             </div>
-            <div>
+            <div  >
                 <asp:DropDownList ID="dlMenuItems" runat="server" DataTextField="menuitemname"
                                 DataValueField="menuitemid" AutoPostBack="True" OnSelectedIndexChanged="dlMenuItems_SelectedIndexChanged" >
                            <asp:ListItem>Select Menu</asp:ListItem>
                 </asp:DropDownList>
             </div>
 
-            <div>
+            <div   >
                 <div style="float:left">
                     Inventory category:
                 </div>
@@ -40,7 +40,7 @@
                 </div>
             </div>
             
-            <div>
+            <div  >
                 <div style="float:left">
                     Inventory item
                 </div>
@@ -52,7 +52,7 @@
                 </div>
             </div>
     
-            <div>
+            <div  >
                 <div style="float:left">
                     Quantity consumed:
                 </div>
@@ -62,10 +62,10 @@
             </div>
 
             <div>
-            <div style="float: left">
+            <div   style="float: left">
                 <asp:button id="btnSave" runat="server" text="Save" onclick="btnSave_Click" />
             </div>
-            <div>
+            <div  >
                 <asp:button id="btnClear" runat="server" text="Clear" />
             </div>
 
@@ -87,7 +87,7 @@
     <ContentTemplate>
         <asp:HiddenField ID="hidNewEditFlag" runat="server" />
         <asp:HiddenField ID="HiddenField2" runat="server" />
-        <div style="float:left ; width:50%">
+        <div   style="float:left ; width:30%">
             <asp:GridView ID="grdRecipe" runat="server" AutoGenerateColumns ="False" BackColor="White" BorderColor="White" BorderStyle="Ridge" 
                 BorderWidth="2px" CellPadding="3" CellSpacing="1" GridLines="None" OnRowCommand="grdRecipe_RowCommand" OnRowDeleting="grdRecipe_RowDeleting">
                          

@@ -185,6 +185,13 @@
   </deleteMenuQty>
 
 
+  <getMenuMgmt>
+    <command>SELECT MenuItemName,MenuItemCost, showinorder, mih.MenuItemID, idmenutaxassn FROM hotelbase.menuitemheader mih join hotelbase.menutaxassn mta on mih.MenuItemID = mta.menuitemid where mih.DelFlag &lt;&gt;'Y'</command>
+    <params>
+    </params>
+  </getMenuMgmt>
+  
+    
   <deleteRecipeInvAssn>
     <command>update invmnuassn invmnu set invmnu.delflag='Y' , invmnu.modby=@modby, invmnu.moddate=now() where invmnu.idinvmnuassn=@InvMenuAssnID</command>
     <params>@InvMenuAssnID|@modby</params>

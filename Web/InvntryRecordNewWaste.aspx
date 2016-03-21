@@ -90,8 +90,7 @@
     <triggers>
              <asp:AsyncPostBackTrigger controlid="dlInventoryCategory" eventname="SelectedIndexChanged" />
              <asp:AsyncPostBackTrigger controlid="dlInventoryItem" eventname="SelectedIndexChanged" />
-             <asp:AsyncPostBackTrigger controlid="btnSave" eventname="Click" />
-             <asp:AsyncPostBackTrigger controlid="dlOrderItems" eventname="ItemCommand" />
+             <asp:AsyncPostBackTrigger controlid="btnSave" eventname="Click" /> 
              
             </triggers>
     </asp:UpdatePanel>

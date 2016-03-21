@@ -9,41 +9,64 @@ public partial class Web_ViewMenu : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
-        UserAuth clsUsrAuth = new UserAuth();
         try
         {
-             Orders clsOrders = new Orders();
-            GridView1.DataSource = clsOrders.getTest1(int.Parse(Session[Constants.SVAR_HOTEL_ID].ToString()));
-            GridView1.DataBind();
+            if (!Page.IsPostBack)
+            {
+                //Populate menu items
+                populateMenus();
 
-            GridView2.DataSource = clsOrders.getTest2(int.Parse(Session[Constants.SVAR_HOTEL_ID].ToString()));
-            GridView2.DataBind();
-           
+            }
+            else
+            {
+
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Response.Redirect("~/Web/error.aspx?msg=" + Server.UrlEncode(ex.Message.ToString()).ToString(), false);
         }
         finally
         {
         }
 
+
     }
 
-    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    public void populateMenus()
     {
-        if (e.Row.RowType == DataControlRowType.DataRow)
+        HotelMenu clsHotelMenu = new HotelMenu();
+        try
         {
-            //use this way
-            e.Row.ToolTip = e.Row.Cells[0].Text.ToString() +" "+ e.Row.Cells[1].Text.ToString();
-            //or use this way
-           // e.Row.Attributes.Add("title", "My FooBar tooltip");
+             
+        }
+        finally
+        {
+            clsHotelMenu = null;
         }
 
     }
-    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+
+    protected void populateRecipe()
     {
 
+        HotelMenu clsHotelMenu = new HotelMenu();
+        try
+        {
+
+            grdMenus.DataSource = null;
+            grdMenus.DataSource = clsHotelMenu.getMenuForMgmt();
+            grdMenus.DataBind();
+
+        }
+        finally
+        {
+            clsHotelMenu = null;
+        }
+
     }
-    protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        int i = 10;
-    }
+
+
+
 }

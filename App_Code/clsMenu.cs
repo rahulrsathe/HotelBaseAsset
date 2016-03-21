@@ -98,5 +98,31 @@ public class HotelMenu
         }
     }
 
-    
+
+    public DataSet getMenuForMgmt()
+    {
+        MySqlConnection con = null;
+        MySqlDataAdapter da;
+        DataSet ds;
+        try
+        {
+            string[] strSQL = XMLWrapper.getSQLString("getMenuMgmt");
+            MySqlCommand command = new MySqlCommand(strSQL[0]);
+            con = Connection.getConnection();
+            command.Connection = con;
+            da = new MySqlDataAdapter(command);
+            ds = new DataSet();
+            da.Fill(ds);
+
+            return ds;
+
+        }
+
+        finally
+        {
+            Connection.closeConnection(con);
+        }
+    }
+
+
 }

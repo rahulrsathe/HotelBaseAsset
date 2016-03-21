@@ -7,21 +7,21 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "HotelBaseAsset", ".", "{C57
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_50267"
-		Debug.AspNetCompiler.PhysicalPath = "HotelBaseAsset\"
+		Debug.AspNetCompiler.PhysicalPath = "..\HotelBaseAsset\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50267\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.VirtualPath = "/localhost_50267"
-		Release.AspNetCompiler.PhysicalPath = "HotelBaseAsset\"
+		Release.AspNetCompiler.PhysicalPath = "..\HotelBaseAsset\"
 		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50267\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "50267"
-		SlnRelativePath = "HotelBaseAsset\"
+		SlnRelativePath = "..\HotelBaseAsset\"
 	EndProjectSection
 EndProject
 Global

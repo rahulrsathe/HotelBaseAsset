@@ -527,7 +527,7 @@ public class Orders
 
             while (reader.Read())
             {
-                dctTax[int.Parse(reader["menutaxid"].ToString())] = decimal.Parse(reader["taxpercent"].ToString());
+                dctTax[int.Parse(reader["taxid"].ToString())] = decimal.Parse(reader["taxpercent"].ToString());
 
             }
 

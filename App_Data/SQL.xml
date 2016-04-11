@@ -69,12 +69,12 @@
 
 
   <getOrderDetailForBill>
-    <command>select mih.menuitemname, mih.menuitemcost, mih.menuitemid,fod.menuitemqty, (mih.menuitemcost * fod.menuitemqty ) as totalcost, fod.foodorderdetailid , mih.taxid, cmplmntry from foodorderdetail fod left  join foodorderheader foh on fod.orderid = foh.orderid join menuitemheader mih on mih.menuitemid = fod.menuitemid where foh.orderid = @orderid and foh.delflag &lt;&gt; 'Y' and fod.delflag &lt;&gt; 'Y' and fod.cmplmntry &lt;&gt;'Y'</command>
+    <command>select mih.menuitemname, mih.menuitemcost, mih.menuitemid,fod.menuitemqty, (mih.menuitemcost * fod.menuitemqty ) as totalcost, fod.foodorderdetailid ,tax.taxid, cmplmntry from foodorderdetail fod left  join foodorderheader foh on fod.orderid = foh.orderid join menuitemheader mih on mih.menuitemid = fod.menuitemid  join menutaxassn mta on mta.idmenutaxassn = mih.idmenutaxassn join taxmaster tax on tax.taxid=mta.taxid  where foh.orderid = @orderid and foh.delflag &lt;&gt; 'Y' and fod.delflag &lt;&gt; 'Y' and fod.cmplmntry &lt;&gt;'Y'</command>
     <params>@orderid</params>
   </getOrderDetailForBill>
 
   <getOrderDetail>
-    <command>select mih.menuitemname, mih.menuitemcost, mih.menuitemid,fod.menuitemqty, (mih.menuitemcost * fod.menuitemqty ) as totalcost, fod.foodorderdetailid , mih.taxid, cmplmntry from foodorderdetail fod left  join foodorderheader foh on fod.orderid = foh.orderid join menuitemheader mih on mih.menuitemid = fod.menuitemid where foh.orderid = @orderid and foh.delflag &lt;&gt; 'Y' and fod.delflag &lt;&gt; 'Y'</command>
+    <command>select mih.menuitemname, mih.menuitemcost, mih.menuitemid,fod.menuitemqty, (mih.menuitemcost * fod.menuitemqty ) as totalcost, fod.foodorderdetailid , tax.taxid, cmplmntry from foodorderdetail fod left  join foodorderheader foh on fod.orderid = foh.orderid join menuitemheader mih on mih.menuitemid = fod.menuitemid  join menutaxassn mta on mta.idmenutaxassn = mih.idmenutaxassn join taxmaster tax on tax.taxid=mta.taxid  where foh.orderid = @orderid and foh.delflag &lt;&gt; 'Y' and fod.delflag &lt;&gt; 'Y'</command>
     <params>@orderid</params>
   </getOrderDetail>
 
@@ -104,7 +104,7 @@
   </updateOrderDetail>
 
   <getTaxPercent>
-    <command>select distinct menutaxid, taxpercent from menutax where menutaxid IN ({0}) and hotelid=@hotelid and delflag &lt;&gt; 'Y'</command>
+    <command>select distinct taxid, taxpercent from taxmaster where taxid IN ({0}) and hotelid=@hotelid and delflag &lt;&gt; 'Y'</command>
     <params>@hotelid</params>
   </getTaxPercent>
 
@@ -129,7 +129,7 @@
   </updateBillHeader>
 
   <getOrderTax>
-    <command>select fot.foodordertaxid, mt.menutaxid, mt.taxcode, mt.taxdesc , fot.taxamt from foodordertax fot join menutax mt on mt.menutaxid=fot.taxid and orderid=@orderid and fot.delflag &lt;&gt;'Y' and mt.delflag &lt;&gt;'Y' union select -1,-1, -1,'Order Total' , billamt  from billdetail where orderid =@orderid2 and delflag &lt;&gt;'Y'</command>
+    <command>select fot.foodordertaxid, mt.taxid, mt.taxcode, mt.taxdesc , fot.taxamt from foodordertax fot join taxmaster mt on mt.taxid=fot.taxid and orderid=@orderid and fot.delflag &lt;&gt;'Y' and mt.delflag &lt;&gt;'Y' union select -1,-1, -1,'Order Total' , billamt  from billdetail where orderid =@orderid2 and delflag &lt;&gt;'Y'</command>
     <params>@orderid|@orderid2</params>
   </getOrderTax>
 
@@ -154,7 +154,7 @@
   </rptGetBill>
 
   <rptGetBillTax>
-    <command>select sum(fot.taxamt) as taxamt from  foodordertax fot  join  menutax mt ON mt.menutaxid = fot.taxid and orderid =@orderid  and fot.delflag &lt;&gt; 'Y' and mt.delflag &lt;&gt; 'Y'</command>
+    <command>select sum(fot.taxamt) as taxamt from  foodordertax fot  join  taxmaster mt ON mt.taxid = fot.taxid and orderid =@orderid  and fot.delflag &lt;&gt; 'Y' and mt.delflag &lt;&gt; 'Y'</command>
     <params>@orderid</params>
   </rptGetBillTax>
 

@@ -246,6 +246,9 @@
     <command>select fdt.finedinetableID, fdt.tablenickname   from finedinetables fdt  left join foodorderheader foh  on fdt.finedinetableid = foh.tableid  and foh.orderstatus=@orderstatus  and foh.ordertype=@ordertype left join billdetail b on b.orderid = foh.orderid   where fdt.hotelid = @hotelid and fdt.delflag &lt;&gt; 'Y'</command>
     <params>@hotelid|@orderstatus|@ordertype</params>
   </FrozenColumns2>
-  
 
+  <InsertNewMenu>
+    <command> INSERT INTO menuitemheader ('MenuItemType', 'MenuItemName', 'MenuItemCost', 'DelFlag', 'ModDate', 'CreateDate', 'ModBy', 'HotelID', 'showinorder', 'idmenutaxassn') VALUES (@MenuType, @MenuName, @cost, 'N', now(), now(), @modby, @hotelid, 'N', @menutxassn) </command>
+    <params>@MenuType|@MenuName|@cost|@modby|@hotelid|@menutxassn</params>
+  </InsertNewMenu>
 </queries>
